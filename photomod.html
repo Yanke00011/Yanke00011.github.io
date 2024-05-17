@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片展示</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="yp01.jpg" alt="图片1" onclick="openModal(this)">
+        </div>
+        <div class="gallery-item">
+            <img src="oyaji.png" alt="图片2" onclick="openModal(this)">
+        </div>
+        <div class="gallery-item">
+            <img src="images/image3.jpg" alt="图片3" onclick="openModal(this)">
+        </div>
+        <!-- 可以添加更多图片 -->
+    </div>
+
+    <div id="myModal" class="modal" onclick="closeModal()">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
