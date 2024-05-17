@@ -1,16 +1,75 @@
-
-
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<title>岳鹏-小张百科</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>岳鹏-小张百科</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            box-shadow: 0 4px 2px -2px gray;
+        }
+        .container {
+            display: flex;
+            flex: 1;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f4f4f4;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .main {
+            flex: 1;
+            padding: 15px;
+        }
+        .sidebar a {
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #000;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #ddd;
+            color: #000;
+        }
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
 </head>
-<frameset cols="250,*" frameborder="1">
-  <frame name="contents" src="b.html" noresize="noresize">
-  <frame name="main" src="    ">
-  <noframes>
-  <body>
-  <p>This page is using frames. Your browser does not support it.</p>
-  </body>
-  </noframes>
-</frameset>
+<body>
+    <div class="header">
+        哈尔滨现金王岳鹏先生个人介绍
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <a href='photomod.html' target='mainFrame'>生活照片</a>
+            <a href='LIMINGZ.html' target='mainFrame'>个人介绍</a>
+            <a href='shengping.html' target='mainFrame'>生平</a>
+            <a href='demo_style_main.php?style=style3' target='mainFrame'>家庭</a>
+            <a href="demo_style_main.php" target="mainFrame">资产</a>
+            <a href="demo_style_main.php" target="mainFrame">个人经历</a>
+        </div>
+        <div class="main">
+            <iframe name="mainFrame"></iframe>
+        </div>
+    </div>
+</body>
 </html>
