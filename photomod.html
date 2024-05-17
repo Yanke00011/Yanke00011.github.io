@@ -1,30 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>图片展示</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+            justify-content: center;
+        }
+        .gallery-item {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
+            width: auto;
+            height: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+        }
+    </style>
 </head>
 <body>
     <div class="gallery">
         <div class="gallery-item">
-            <img src="yp01.jpg" alt="图片1" onclick="openModal(this)">
+            <img src="yp01.jpg"alt="图片1" onclick="openModal(this)">
         </div>
         <div class="gallery-item">
-            <img src="oyaji.png" alt="图片2" onclick="openModal(this)">
+            <img src=" " alt="图片2" onclick="openModal(this)">
         </div>
         <div class="gallery-item">
-            <img src="images/image3.jpg" alt="图片3" onclick="openModal(this)">
+            <img src=" " alt="图片3" onclick="openModal(this)">
         </div>
         <!-- 可以添加更多图片 -->
     </div>
 
-    <div id="myModal" class="modal" onclick="closeModal()">
-        <span class="close">&times;</span>
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
         <img class="modal-content" id="modalImage">
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function openModal(element) {
+            const modal = document.getElementById('myModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = "flex";
+            modalImg.src = element.src;
+
+            modalImg.onload = () => {
+                const naturalWidth = modalImg.naturalWidth;
+                const naturalHeight = modalImg.naturalHeight;
+                const maxWidth = window.innerWidth * 0.8;
+                const maxHeight = window.innerHeight * 0.8;
+
+                let width, height;
+
+                if (naturalWidth > maxWidth || naturalHeight > maxHeight) {
+                    const widthRatio = maxWidth / naturalWidth;
+                    const heightRatio = maxHeight / naturalHeight;
+                    const ratio = Math.min(widthRatio, heightRatio);
+
+                    width = naturalWidth * ratio;
+                    height = naturalHeight * ratio;
+                } else {
+                    width = naturalWidth;
+                    height = naturalHeight;
+                }
+
+                modalImg.style.width = `${width}px`;
+                modalImg.style.height = `${height}px`;
+            };
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('myModal');
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

@@ -19,11 +19,21 @@
             text-align: center;
             font-size: 1.5em;
             box-shadow: 0 4px 2px -2px gray;
+            position: relative;
+        }
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+        }
+        .logo img {
+            height: 40px;
+            width: 40px;
         }
         .container {
             display: flex;
             flex: 1;
-            flex-direction: row;
         }
         .sidebar {
             width: 250px;
@@ -53,22 +63,13 @@
             height: 100vh;
             border: none;
         }
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                box-shadow: none;
-            }
-            .main {
-                margin-left: 0;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="header">
+        <div class="logo">
+            <img src="001001.webp" alt="Logo">
+        </div>
         哈尔滨现金王岳鹏先生个人介绍
     </div>
     <div class="container">
@@ -81,7 +82,7 @@
             <a href="demo_style_main.php" target="mainFrame">个人经历</a>
         </div>
         <div class="main">
-            <iframe name="mainFrame"></iframe>
+            <iframe name="mainFrame" src="welcome.html"></iframe>
         </div>
     </div>
 </body>
