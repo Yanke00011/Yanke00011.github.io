@@ -44,6 +44,13 @@
             width: 40px;
         }
 
+        .title {
+            flex: 1;
+            text-align: center;
+            margin: 0;
+            padding: 0 10px;
+        }
+
         .toggle-btn {
             display: none;
             background-color: #0687de;
@@ -52,31 +59,6 @@
             border: none;
             cursor: pointer;
             font-size: 1em;
-        }
-
-        .search-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-            max-width: 300px; /* 限制搜索框最大宽度 */
-            flex: 1;
-        }
-
-        .search-box input {
-            padding: 5px;
-            border: none;
-            border-radius: 3px 0 0 3px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .search-box button {
-            border: none;
-            background: #0d85c1;
-            color: white;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 0 3px 3px 0;
         }
 
         .container {
@@ -90,8 +72,10 @@
             background-color: #f4f4f4;
             padding: 15px;
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            transition: max-height 0.3s ease-out;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
             overflow: hidden;
+            position: relative;
+            z-index: 3;
         }
 
         .sidebar a {
@@ -112,7 +96,7 @@
         .main {
             flex: 1;
             padding: 15px;
-            overflow-y: auto;
+            overflow: hidden;
             background: white;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
         }
@@ -121,7 +105,9 @@
             width: 100%;
             height: 100%;
             border: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.2s ease;
+            overflow: hidden;
+            pointer-events: none; /* Prevent touch events inside the iframe */
         }
 
         .back-to-top {
@@ -137,6 +123,17 @@
             display: none;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: opacity 0.3s ease;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2;
         }
 
         .social-media {
@@ -157,10 +154,15 @@
             .header {
                 font-size: 1.2em;
                 padding: 10px;
+                flex-direction: column;
+                align-items: center;
             }
             .logo img {
                 height: 30px;
                 width: 30px;
+            }
+            .title {
+                margin: 10px 0;
             }
             .toggle-btn {
                 display: block;
@@ -171,14 +173,17 @@
                 left: 0;
                 width: 100%;
                 max-height: 0;
-                transition: max-height 0.3s ease-out;
+                opacity: 0;
+                transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
                 background-color: #f4f4f4;
+                z-index: 3;
             }
             .sidebar.show {
                 max-height: 300px;
+                opacity: 1;
             }
             .main {
-                overflow-y: auto;
+                overflow: hidden;
             }
             iframe {
                 height: calc(100vh - 60px);
@@ -188,15 +193,10 @@
 </head>
 <body>
     <div class="header">
-        <div class="logo" onclick="location.href='index.html'">
+        <div class="logo" onclick="returnHome()">
             <img src="001001.webp" alt="Logo">
         </div>
-        哈尔滨现金王岳鹏先生个人介绍
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="搜索..." oninput="searchContent()">
-            <button onclick="searchContent()">搜索</button>
-            <div id="search-results" style="background: white; position: absolute; z-index: 1000;"></div>
-        </div>
+        <div class="title">哈尔滨现金王岳鹏先生个人介绍</div>
         <button class="toggle-btn" onclick="toggleSidebar()">菜单</button>
     </div>
     <div class="container">
@@ -209,7 +209,7 @@
             <a href="yemian/gerenjingli.html" target="mainFrame">个人经历</a>
         </div>
         <div class="main">
-            <iframe name="mainFrame" id="mainFrame" src="yemian/welcome.html"></iframe>
+            <iframe name="mainFrame" id="mainFrame" src="welcome.html"></iframe>
         </div>
     </div>
     <button class="back-to-top" onclick="scrollToTop()">↑</button>
@@ -218,10 +218,30 @@
         <a href="#" target="_blank">🔗</a>
         <a href="#" target="_blank">🔗</a>
     </div>
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
     <script>
         function toggleSidebar() {
             var sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('show');
+            var overlay = document.getElementById('overlay');
+            if (sidebar.classList.contains('show')) {
+                gsap.to(sidebar, { maxHeight: 0, opacity: 0, duration: 0.3, ease: "power2.out" });
+                sidebar.classList.remove('show');
+                overlay.style.display = 'none';
+            } else {
+                gsap.to(sidebar, { maxHeight: 300, opacity: 1, duration: 0.3, ease: "power2.out" });
+                sidebar.classList.add('show');
+                overlay.style.display = 'block';
+            }
+        }
+
+        function closeSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('overlay');
+            if (sidebar.classList.contains('show')) {
+                gsap.to(sidebar, { maxHeight: 0, opacity: 0, duration: 0.3, ease: "power2.out" });
+                sidebar.classList.remove('show');
+                overlay.style.display = 'none';
+            }
         }
 
         window.onscroll = function() {
@@ -241,38 +261,39 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function searchContent() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const resultsContainer = document.getElementById('search-results');
-            resultsContainer.innerHTML = '';
-            if (!query) {
-                return;
-            }
-            const links = document.querySelectorAll('.sidebar a');
-            links.forEach(link => {
-                if (link.textContent.toLowerCase().includes(query)) {
-                    const resultItem = document.createElement('div');
-                    resultItem.textContent = link.textContent;
-                    resultItem.style.cursor = 'pointer';
-                    resultItem.onclick = () => link.click();
-                    resultsContainer.appendChild(resultItem);
-                }
+        function returnHome() {
+            var iframe = document.getElementById('mainFrame');
+            gsap.to(iframe, { 
+                duration: 0.3, 
+                opacity: 0, 
+                x: -50, 
+                onComplete: function() {
+                    iframe.src = "welcome.html";
+                    gsap.fromTo(iframe, { 
+                        opacity: 0, 
+                        x: 50 
+                    }, { 
+                        duration: 0.3, 
+                        opacity: 1, 
+                        x: 0 
+                    });
+                } 
             });
         }
 
         // GSAP 动画
-        gsap.from(".header", { duration: 1, y: -50, opacity: 0, ease: "bounce" });
+        gsap.from(".header", { duration: 0.5, y: -50, opacity: 0, ease: "power2.out" });
         gsap.from(".sidebar a", { 
-            duration: 1, 
+            duration: 0.5, 
             opacity: 0, 
-            stagger: 0.2, 
-            ease: "power2.inOut" 
+            stagger: 0.1, 
+            ease: "power2.out" 
         });
         gsap.from(".main iframe", { 
-            duration: 1, 
-            x: 100, 
+            duration: 0.5, 
+            x: 50, 
             opacity: 0, 
-            ease: "power2.inOut" 
+            ease: "power2.out" 
         });
 
         ScrollTrigger.create({
