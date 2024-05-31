@@ -4,50 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>岳鹏-小张百科</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f0f0f0;
         }
+
         .header {
-            background-color: #4CAF50;
+            background-color: #2591d9;
             color: white;
             padding: 15px;
             text-align: center;
             font-size: 1.5em;
             box-shadow: 0 4px 2px -2px gray;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             position: relative;
+            z-index: 2;
         }
+
         .logo {
-            position: absolute;
-            top: 50%;
-            left: 15px;
-            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
         }
+
         .logo img {
             height: 40px;
             width: 40px;
         }
+
+        .toggle-btn {
+            display: none;
+            background-color: #0687de;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            max-width: 300px; /* 限制搜索框最大宽度 */
+            flex: 1;
+        }
+
+        .search-box input {
+            padding: 5px;
+            border: none;
+            border-radius: 3px 0 0 3px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-box button {
+            border: none;
+            background: #0d85c1;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 0 3px 3px 0;
+        }
+
         .container {
             display: flex;
             flex: 1;
-            flex-direction: row;
-            flex-wrap: wrap;
+            overflow: hidden;
         }
+
         .sidebar {
             width: 250px;
             background-color: #f4f4f4;
             padding: 15px;
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            transition: max-height 0.3s ease-out;
+            overflow: hidden;
         }
-        .main {
-            flex: 1;
-            padding: 15px;
-            min-width: 300px; /* Ensure the main content area has a minimum width */
-        }
+
         .sidebar a {
             display: block;
             margin-bottom: 10px;
@@ -57,66 +103,185 @@
             border-radius: 4px;
             transition: background-color 0.3s, color 0.3s;
         }
+
         .sidebar a:hover {
             background-color: #ddd;
             color: #000;
         }
+
+        .main {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: white;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+
         iframe {
             width: 100%;
-            height: 100vh;
+            height: 100%;
             border: none;
+            transition: opacity 0.3s ease;
         }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: opacity 0.3s ease;
+        }
+
+        .social-media {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-media a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5em;
+        }
+
         @media (max-width: 768px) {
             .header {
                 font-size: 1.2em;
                 padding: 10px;
             }
-            .logo {
-                top: 10px;
-                left: 10px;
-                transform: none;
-            }
             .logo img {
                 height: 30px;
                 width: 30px;
             }
-            .container {
-                flex-direction: column;
+            .toggle-btn {
+                display: block;
             }
             .sidebar {
+                position: absolute;
+                top: 60px;
+                left: 0;
                 width: 100%;
-                box-shadow: none;
-                border-bottom: 1px solid #ddd;
+                max-height: 0;
+                transition: max-height 0.3s ease-out;
+                background-color: #f4f4f4;
+            }
+            .sidebar.show {
+                max-height: 300px;
             }
             .main {
-                min-width: 0; /* Remove the minimum width on smaller screens */
+                overflow-y: auto;
             }
             iframe {
-                height: 60vh; /* Adjust iframe height for smaller screens */
+                height: calc(100vh - 60px);
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo">
+        <div class="logo" onclick="location.href='index.html'">
             <img src="001001.webp" alt="Logo">
         </div>
         哈尔滨现金王岳鹏先生个人介绍
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="搜索..." oninput="searchContent()">
+            <button onclick="searchContent()">搜索</button>
+            <div id="search-results" style="background: white; position: absolute; z-index: 1000;"></div>
+        </div>
+        <button class="toggle-btn" onclick="toggleSidebar()">菜单</button>
     </div>
     <div class="container">
-        <div class="sidebar">
-            <a href='photomod.html' target='mainFrame'>生活照片</a>
-            <a href='LIMINGZ.html' target='mainFrame'>个人介绍</a>
-            <a href='shengping.html' target='mainFrame'>生平</a>
-            <a href='demo_style_main.php?style=style3' target='mainFrame'>家庭</a>
-            <a href="demo_style_main.php" target="mainFrame">资产</a>
-            <a href="demo_style_main.php" target="mainFrame">个人经历</a>
+        <div class="sidebar" id="sidebar">
+            <a href='yemian/photomod.html' target='mainFrame'>生活照片</a>
+            <a href='yemian/LIMINGZ.html' target='mainFrame'>个人介绍</a>
+            <a href='yemian/shengping.html' target='mainFrame'>生平</a>
+            <a href='yemian/jiating.html' target='mainFrame'>家庭</a>
+            <a href="yemian/zichan.html" target="mainFrame">资产</a>
+            <a href="yemian/gerenjingli.html" target="mainFrame">个人经历</a>
         </div>
         <div class="main">
-            <iframe name="mainFrame" src="welcome.html"></iframe>
+            <iframe name="mainFrame" id="mainFrame" src="yemian/welcome.html"></iframe>
         </div>
     </div>
+    <button class="back-to-top" onclick="scrollToTop()">↑</button>
+    <div class="social-media">
+        <a href="https://m.weibo.cn/" target="_blank">🔗</a>
+        <a href="#" target="_blank">🔗</a>
+        <a href="#" target="_blank">🔗</a>
+    </div>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('show');
+        }
+
+        window.onscroll = function() {
+            var backToTopButton = document.querySelector('.back-to-top');
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopButton.style.display = "block";
+                backToTopButton.style.opacity = "1";
+            } else {
+                backToTopButton.style.opacity = "0";
+                setTimeout(() => {
+                    backToTopButton.style.display = "none";
+                }, 300);
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function searchContent() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = '';
+            if (!query) {
+                return;
+            }
+            const links = document.querySelectorAll('.sidebar a');
+            links.forEach(link => {
+                if (link.textContent.toLowerCase().includes(query)) {
+                    const resultItem = document.createElement('div');
+                    resultItem.textContent = link.textContent;
+                    resultItem.style.cursor = 'pointer';
+                    resultItem.onclick = () => link.click();
+                    resultsContainer.appendChild(resultItem);
+                }
+            });
+        }
+
+        // GSAP 动画
+        gsap.from(".header", { duration: 1, y: -50, opacity: 0, ease: "bounce" });
+        gsap.from(".sidebar a", { 
+            duration: 1, 
+            opacity: 0, 
+            stagger: 0.2, 
+            ease: "power2.inOut" 
+        });
+        gsap.from(".main iframe", { 
+            duration: 1, 
+            x: 100, 
+            opacity: 0, 
+            ease: "power2.inOut" 
+        });
+
+        ScrollTrigger.create({
+            trigger: ".main",
+            start: "top center",
+            end: "bottom top",
+            animation: gsap.to(".main iframe", { opacity: 1, x: 0 }),
+            scrub: true
+        });
+    </script>
 </body>
 </html>
-
