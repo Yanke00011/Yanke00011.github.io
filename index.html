@@ -96,7 +96,7 @@
         .main {
             flex: 1;
             padding: 15px;
-            overflow: hidden;
+            overflow-y: auto;
             background: white;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
         }
@@ -106,8 +106,6 @@
             height: 100%;
             border: none;
             transition: opacity 0.2s ease;
-            overflow: hidden;
-            pointer-events: none; /* Prevent touch events inside the iframe */
         }
 
         .back-to-top {
@@ -183,7 +181,7 @@
                 opacity: 1;
             }
             .main {
-                overflow: hidden;
+                overflow-y: auto;
             }
             iframe {
                 height: calc(100vh - 60px);
@@ -302,6 +300,18 @@
             end: "bottom top",
             animation: gsap.to(".main iframe", { opacity: 1, x: 0 }),
             scrub: true
+        });
+
+        // 禁用iframe内部的滚动事件
+        window.addEventListener('DOMContentLoaded', (event) => {
+            var iframe = document.getElementById('mainFrame');
+            iframe.onload = function() {
+                if (iframe.contentWindow) {
+                    iframe.contentWindow.addEventListener('touchmove', function(event) {
+                        event.preventDefault();
+                    }, { passive: false });
+                }
+            };
         });
     </script>
 </body>
