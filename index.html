@@ -3,316 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>岳鹏-小张百科</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-            background-color: #f0f0f0;
-        }
-
-        .header {
-            background-color: #2591d9;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 1.5em;
-            box-shadow: 0 4px 2px -2px gray;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            z-index: 2;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .logo img {
-            height: 40px;
-            width: 40px;
-        }
-
-        .title {
-            flex: 1;
-            text-align: center;
-            margin: 0;
-            padding: 0 10px;
-        }
-
-        .toggle-btn {
-            display: none;
-            background-color: #0687de;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-        }
-
-        .container {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #f4f4f4;
-            padding: 15px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-            overflow: hidden;
-            position: relative;
-            z-index: 3;
-        }
-
-        .sidebar a {
-            display: block;
-            margin-bottom: 10px;
-            text-decoration: none;
-            color: #000;
-            padding: 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .sidebar a:hover {
-            background-color: #ddd;
-            color: #000;
-        }
-
-        .main {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            background: white;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: opacity 0.3s ease;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2;
-        }
-
-        .social-media {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .social-media a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.5em;
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                font-size: 1.2em;
-                padding: 10px;
-                flex-direction: column;
-                align-items: center;
-            }
-            .logo img {
-                height: 30px;
-                width: 30px;
-            }
-            .title {
-                margin: 10px 0;
-            }
-            .toggle-btn {
-                display: block;
-            }
-            .sidebar {
-                position: absolute;
-                top: 60px;
-                left: 0;
-                width: 100%;
-                max-height: 0;
-                opacity: 0;
-                transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-                background-color: #f4f4f4;
-                z-index: 3;
-            }
-            .sidebar.show {
-                max-height: 300px;
-                opacity: 1;
-            }
-            .main {
-                overflow-y: auto;
-            }
-            iframe {
-                height: calc(100vh - 60px);
-            }
-        }
-    </style>
+    <title>岳鹏 · 个人主页</title>
+    <meta name="description" content="岳鹏的个人主页 —— 来自哈尔滨，哈尔滨现金王、哈尔滨水果大王。在这里了解我的经历、家庭、生活与更多故事。">
+    <meta property="og:title" content="岳鹏 · 个人主页">
+    <meta property="og:description" content="哈尔滨现金王 · 哈尔滨水果大王 —— 了解我的故事。">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&display=swap">
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <div class="header">
-        <div class="logo" onclick="returnHome()">
-            <img src="001001.webp" alt="Logo">
+
+    <!-- ======= 导航栏 ======= -->
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-mark">YP</span>
+                <span>岳鹏</span>
+            </a>
+            <button class="nav-toggle" aria-label="菜单" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-menu">
+                <a href="index.html">首页</a>
+                <a href="pages/about.html">关于我</a>
+                <a href="pages/life.html">生平</a>
+                <a href="pages/family.html">家庭</a>
+                <a href="pages/assets.html">资产</a>
+                <a href="pages/experience.html">经历</a>
+                <a href="pages/gallery.html">照片</a>
+                <a href="pages/contact.html">联系</a>
+            </div>
         </div>
-        <div class="title">哈尔滨现金王岳鹏先生个人介绍</div>
-        <button class="toggle-btn" onclick="toggleSidebar()">菜单</button>
-    </div>
-    <div class="container">
-        <div class="sidebar" id="sidebar">
-            <a href='yemian/photomod.html' target='mainFrame'>生活照片</a>
-            <a href='yemian/LIMINGZ.html' target='mainFrame'>个人介绍</a>
-            <a href='yemian/shengping.html' target='mainFrame'>生平</a>
-            <a href='yemian/jiating.html' target='mainFrame'>家庭</a>
-            <a href="yemian/zichan.html" target="mainFrame">资产</a>
-            <a href="yemian/gerenjingli.html" target="mainFrame">个人经历</a>
+    </nav>
+
+    <!-- ======= Hero ======= -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <span class="hero-eyebrow"><span class="dot"></span> 欢迎来到我的个人主页</span>
+                    <h1>你好，我是 <span class="grad-text">岳鹏</span></h1>
+                    <p class="hero-sub">
+                        来自黑龙江哈尔滨，一位热爱生活、不断成长的年轻人。
+                        江湖人称 <strong>「哈尔滨现金王」</strong> 与 <strong>「哈尔滨水果大王」</strong>。
+                        这里记录着我的经历、家庭、生活与故事。
+                    </p>
+                    <div class="hero-cta">
+                        <a href="pages/about.html" class="btn">了解我 →</a>
+                        <a href="pages/gallery.html" class="btn ghost">查看照片</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="avatar-wrap reveal visible">
+                        <div class="avatar-ring"></div>
+                        <div class="avatar-core">
+                            <img src="001001.webp" alt="岳鹏头像">
+                        </div>
+                        <span class="avatar-badge">哈尔滨 · 现金王</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="main">
-            <iframe name="mainFrame" id="mainFrame" src="yemian/welcome.html"></iframe>
+    </header>
+
+    <!-- ======= 数据速览 ======= -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="stats">
+                <div class="card stat reveal"><div class="stat-num">2001</div><div class="stat-label">出生于哈尔滨</div></div>
+                <div class="card stat reveal d1"><div class="stat-num">2</div><div class="stat-label">江湖荣誉称号</div></div>
+                <div class="card stat reveal d2"><div class="stat-num">6</div><div class="stat-label">内容板块</div></div>
+                <div class="card stat reveal d3"><div class="stat-num">∞</div><div class="stat-label">对生活的热爱</div></div>
+            </div>
         </div>
-    </div>
-    <button class="back-to-top" onclick="scrollToTop()">↑</button>
-    <div class="social-media">
-        <a href="https://m.weibo.cn/" target="_blank">🔗</a>
-        <a href="#" target="_blank">🔗</a>
-        <a href="#" target="_blank">🔗</a>
-    </div>
-    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-    <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            var overlay = document.getElementById('overlay');
-            if (sidebar.classList.contains('show')) {
-                gsap.to(sidebar, { maxHeight: 0, opacity: 0, duration: 0.3, ease: "power2.out" });
-                sidebar.classList.remove('show');
-                overlay.style.display = 'none';
-            } else {
-                gsap.to(sidebar, { maxHeight: 300, opacity: 1, duration: 0.3, ease: "power2.out" });
-                sidebar.classList.add('show');
-                overlay.style.display = 'block';
-            }
-        }
+    </section>
 
-        function closeSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            var overlay = document.getElementById('overlay');
-            if (sidebar.classList.contains('show')) {
-                gsap.to(sidebar, { maxHeight: 0, opacity: 0, duration: 0.3, ease: "power2.out" });
-                sidebar.classList.remove('show');
-                overlay.style.display = 'none';
-            }
-        }
+    <!-- ======= 板块导航 ======= -->
+    <section class="section">
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="section-tag">Explore</span>
+                <h2>探索我的世界</h2>
+                <p>六个板块，全方位了解我的故事。</p>
+            </div>
+            <div class="grid-3">
+                <a href="pages/about.html" class="card reveal">
+                    <div class="card-icon">👤</div>
+                    <h3>关于我</h3>
+                    <p>出生信息、称号与个人档案，快速认识我这个人。</p>
+                    <span class="card-link">查看详情 →</span>
+                </a>
+                <a href="pages/life.html" class="card reveal d1">
+                    <div class="card-icon">📜</div>
+                    <h3>生平</h3>
+                    <p>从 2001 年到现在，一路走来的重要时间节点。</p>
+                    <span class="card-link">查看详情 →</span>
+                </a>
+                <a href="pages/family.html" class="card reveal d2">
+                    <div class="card-icon">🏠</div>
+                    <h3>家庭</h3>
+                    <p>我的家庭构成与家人，温暖的港湾。</p>
+                    <span class="card-link">查看详情 →</span>
+                </a>
+                <a href="pages/assets.html" class="card reveal">
+                    <div class="card-icon">💰</div>
+                    <h3>资产</h3>
+                    <p>「哈尔滨现金王」名号的底气所在，资产一览。</p>
+                    <span class="card-link">查看详情 →</span>
+                </a>
+                <a href="pages/experience.html" class="card reveal d1">
+                    <div class="card-icon">🚀</div>
+                    <h3>个人经历</h3>
+                    <p>求学历程与成长经历，一步一个脚印。</p>
+                    <span class="card-link">查看详情 →</span>
+                </a>
+                <a href="pages/gallery.html" class="card reveal d2">
+                    <div class="card-icon">📷</div>
+                    <h3>生活照片</h3>
+                    <p>镜头下的生活瞬间，看看真实的我。</p>
+                    <span class="card-link">查看详情 →</span>
+                </a>
+            </div>
+        </div>
+    </section>
 
-        window.onscroll = function() {
-            var backToTopButton = document.querySelector('.back-to-top');
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                backToTopButton.style.display = "block";
-                backToTopButton.style.opacity = "1";
-            } else {
-                backToTopButton.style.opacity = "0";
-                setTimeout(() => {
-                    backToTopButton.style.display = "none";
-                }, 300);
-            }
-        };
+    <!-- ======= 联系 CTA ======= -->
+    <section class="section">
+        <div class="container">
+            <div class="card reveal" style="text-align:center; padding: 56px 28px;">
+                <h2 style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 14px;">想和我聊聊？</h2>
+                <p style="color: var(--text-1); margin-bottom: 30px;">无论是商务合作还是交个朋友，都欢迎联系我。</p>
+                <a href="pages/contact.html" class="btn">联系我 →</a>
+            </div>
+        </div>
+    </section>
 
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    <!-- ======= 页脚 ======= -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="copy">© <span class="js-year">2025</span> 岳鹏 · 用心生活，认真成长</div>
+            <div class="foot-links">
+                <a href="pages/about.html">关于我</a>
+                <a href="pages/gallery.html">照片</a>
+                <a href="pages/contact.html">联系</a>
+            </div>
+        </div>
+    </footer>
 
-        function returnHome() {
-            var iframe = document.getElementById('mainFrame');
-            gsap.to(iframe, { 
-                duration: 0.3, 
-                opacity: 0, 
-                x: -50, 
-                onComplete: function() {
-                    iframe.src = "yemian/welcome.html";
-                    gsap.fromTo(iframe, { 
-                        opacity: 0, 
-                        x: 50 
-                    }, { 
-                        duration: 0.3, 
-                        opacity: 1, 
-                        x: 0 
-                    });
-                } 
-            });
-        }
+    <button class="back-to-top" aria-label="返回顶部">↑</button>
 
-        // GSAP 动画
-        gsap.from(".header", { duration: 0.5, y: -50, opacity: 0, ease: "power2.out" });
-        gsap.from(".sidebar a", { 
-            duration: 0.5, 
-            opacity: 0, 
-            stagger: 0.1, 
-            ease: "power2.out" 
-        });
-        gsap.from(".main iframe", { 
-            duration: 0.5, 
-            x: 50, 
-            opacity: 0, 
-            ease: "power2.out" 
-        });
-
-        ScrollTrigger.create({
-            trigger: ".main",
-            start: "top center",
-            end: "bottom top",
-            animation: gsap.to(".main iframe", { opacity: 1, x: 0 }),
-            scrub: true
-        });
-
-        // 禁用iframe内部的滚动事件
-        window.addEventListener('DOMContentLoaded', (event) => {
-            var iframe = document.getElementById('mainFrame');
-            iframe.onload = function() {
-                if (iframe.contentWindow) {
-                    iframe.contentWindow.addEventListener('touchmove', function(event) {
-                        event.preventDefault();
-                    }, { passive: false });
-                }
-            };
-        });
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>

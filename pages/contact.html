@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系方式 · 岳鹏</title>
+    <meta name="description" content="联系岳鹏 —— 商务合作或交个朋友，欢迎留言。">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&display=swap">
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="../index.html" class="logo">
+                <span class="logo-mark">YP</span>
+                <span>岳鹏</span>
+            </a>
+            <button class="nav-toggle" aria-label="菜单" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-menu">
+                <a href="../index.html">首页</a>
+                <a href="about.html">关于我</a>
+                <a href="life.html">生平</a>
+                <a href="family.html">家庭</a>
+                <a href="assets.html">资产</a>
+                <a href="experience.html">经历</a>
+                <a href="gallery.html">照片</a>
+                <a href="contact.html">联系</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-hero">
+        <div class="container">
+            <h1><span class="grad-text">联系方式</span></h1>
+            <p>无论是商务合作还是交个朋友，欢迎随时联系我。</p>
+        </div>
+    </header>
+
+    <main class="section" style="padding-top: 30px;">
+        <div class="container">
+            <div class="grid-2">
+                <!-- 联系信息 -->
+                <div class="reveal">
+                    <div class="card" style="margin-bottom: 22px;">
+                        <div class="card-icon">📮</div>
+                        <h3>联系方式</h3>
+                        <div class="info-list" style="margin-top: 18px;">
+                            <div class="info-row"><span class="k">邮箱</span><span class="v" style="opacity: .6;">待补充</span></div>
+                            <div class="info-row"><span class="k">微信</span><span class="v" style="opacity: .6;">待补充</span></div>
+                            <div class="info-row"><span class="k">所在地</span><span class="v">哈尔滨 · 中国</span></div>
+                        </div>
+                    </div>
+                    <div class="note">
+                        <span class="nt-icon">💡</span>
+                        <span>联系方式属个人隐私，请按需补充公开。</span>
+                    </div>
+                </div>
+
+                <!-- 留言表单 -->
+                <form class="card reveal d1 form-grid" id="contactForm">
+                    <div class="card-icon">💬</div>
+                    <h3>给我留言</h3>
+                    <div class="field">
+                        <label for="f-name">你的称呼</label>
+                        <input type="text" id="f-name" name="name" placeholder="怎么称呼你" required>
+                    </div>
+                    <div class="field">
+                        <label for="f-contact">联系方式（邮箱/微信）</label>
+                        <input type="text" id="f-contact" name="contact" placeholder="方便我回复你" required>
+                    </div>
+                    <div class="field">
+                        <label for="f-msg">留言内容</label>
+                        <textarea id="f-msg" name="message" placeholder="想对我说点什么…" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">发送留言</button>
+                    <p id="formTip" style="font-size: .88rem; color: var(--text-2);"></p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="copy">© <span class="js-year">2025</span> 岳鹏 · 用心生活，认真成长</div>
+            <div class="foot-links">
+                <a href="../index.html">首页</a>
+                <a href="gallery.html">照片</a>
+                <a href="about.html">关于我</a>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" aria-label="返回顶部">↑</button>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 无后端：组装 mailto 提交，可后续替换为真实表单接口
+        document.getElementById("contactForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            var name = document.getElementById("f-name").value.trim();
+            var contact = document.getElementById("f-contact").value.trim();
+            var msg = document.getElementById("f-msg").value.trim();
+            var body = "来自：" + name + "\n联系方式：" + contact + "\n\n" + msg;
+            var tip = document.getElementById("formTip");
+            var mail = "mailto:?subject=" + encodeURIComponent("来自网站访客 " + name + " 的留言") + "&body=" + encodeURIComponent(body);
+            window.location.href = mail;
+            tip.textContent = "已为你打开邮件客户端，发送即完成留言。";
+        });
+    </script>
+</body>
+</html>
